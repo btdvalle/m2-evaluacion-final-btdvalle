@@ -1,10 +1,35 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.main {
+  display: flex;
+  .aside {
+    width: 30%;
+    .searcher {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .ul-series {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    width: 70%;
+    padding: 0;
+    .list-item {
+      display: inline-block;
+      padding: 20px;
+    }
+  }
+}
 .img-container {
   width: 200px;
   height: auto;
-}
-
-.img {
-  width: 100%;
+  .img {
+    width: 100%;
+  }
 }
 
 .favorite {
