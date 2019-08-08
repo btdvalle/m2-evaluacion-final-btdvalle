@@ -4,7 +4,7 @@ const btn = document.querySelector(".js-btn");
 const series = [];
 const favorites = [];
 
-//FASE 1
+//FASE 2
 const searchInServer = function(ev) {
   ev.preventDefault();
   const searcherInput = document.querySelector(".js-input");
@@ -51,7 +51,7 @@ const printSeries = function() {
   }
   ulSeries.innerHTML = htmlcode;
 };
-//FASE 2
+//FASE 3
 //se puede poner más arriba?
 
 const listenClickAtList = function() {
@@ -74,23 +74,31 @@ const whenClick = function(ev) {
   } else {
     addToFavorites(serieIndex);
     printFavorites(serieIndex);
+    setSeriesIntoLocalStorage();
   }
   printSeries();
   listenClickAtList();
+  setSeriesIntoLocalStorage();
 };
 
 const isInFavorites = function(serieIndex) {
+  //   for (const favorite of favorites) {
   const foundInFavs = favorites.indexOf(serieIndex);
   if (foundInFavs < 0) {
     return false;
   } else {
     return true;
   }
+  //   }
 };
 
 const addToFavorites = function(serieIndex) {
-  console.log(favorites);
-  favorites.push(serieIndex);
+  //   favorites.push(serieIndex);
+  favorites.push({
+    name: series[serieIndex].name,
+    img: series[serieIndex].img,
+    index: serieIndex
+  });
   console.log(favorites);
 };
 
@@ -110,28 +118,36 @@ const getFavoriteClass = function(serieIndex) {
 };
 
 const printFavorites = function(serieIndex) {
-  const ulAside = document.querySelector(".js-ul-aside");
-  let htmlcode = "";
-  htmlcode += `<li class= "list-item ${getFavoriteClass(serieIndex)}" data-index="${serieIndex}">`;
-  htmlcode += `<div class="img-container" data-index="${serieIndex}">`;
-  htmlcode += `<img class="img" src="${series[serieIndex].img}" />`;
-  htmlcode += "</div>";
-  htmlcode += `<h2 class="title">${series[serieIndex].name}</h2>`;
-  htmlcode += "</li>";
-  ulAside.innerHTML += htmlcode;
+  for (let i = 0; i < favorites.length; i++) {
+    const ulAside = document.querySelector(".js-ul-aside");
+    let htmlcode = "";
+    htmlcode += `<li class= "list-item ${getFavoriteClass(serieIndex)}" data-index="${serieIndex}">`;
+    htmlcode += `<div class="img-container" data-index="${serieIndex}">`;
+    htmlcode += `<img class="img" src="${series[serieIndex].img}" />`;
+    htmlcode += "</div>";
+    htmlcode += `<h2 class="title">${series[serieIndex].name}</h2>`;
+    htmlcode += "</li>";
+    ulAside.innerHTML += htmlcode;
+  }
+};
+// const isFavoritesPrinted = function(serieIndex) {
+//   const foundInFavs = favorites.indexOf(serieIndex);
+//   if (foundInFavs < 0) {
+//     return false;
+//   } else {
+//     return true;
+//   }
+// };
+
+//FASE 4
+const getSeriesFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("favorites"));
 };
 
-const unprintFavorites = function(serieIndex) {
-  const ulAside = document.querySelector(".js-ul-aside");
-  let htmlcode = "";
-  htmlcode -= `<li class= "list-item ${getFavoriteClass(serieIndex)}" data-index="${serieIndex}">`;
-  htmlcode -= `<div class="img-container" data-index="${serieIndex}">`;
-  htmlcode -= `<img class="img" src="${series[serieIndex].img}" />`;
-  htmlcode -= "</div>";
-  htmlcode -= `<h2 class="title">${series[serieIndex].name}</h2>`;
-  htmlcode -= "</li>";
-  ulAside.innerHTML += htmlcode;
+const setSeriesIntoLocalStorage = () => {
+  localStorage.setItem("favorites", JSON.stringify(favorites));
 };
 
 //ejecutar funciones
 btn.addEventListener("click", searchInServer);
+getSeriesFromLocalStorage();
