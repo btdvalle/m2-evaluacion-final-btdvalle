@@ -1,6 +1,7 @@
 "use strict";
 
 const btn = document.querySelector(".js-btn");
+const btnDelete = document.querySelector(".js-delete-all");
 let series = [];
 let favorites = [];
 
@@ -55,7 +56,7 @@ const printSeries = function() {
 //se puede poner más arriba?
 
 const listenClickAtList = function() {
-  const listItems = document.querySelectorAll(".list-item");
+  const listItems = document.querySelectorAll(".ul-series .list-item");
   for (const item of listItems) {
     item.addEventListener("click", whenClick);
   }
@@ -75,10 +76,10 @@ const whenClick = function(ev) {
     addToFavorites(serieIndex);
   }
   printFavorites();
+  applyXbtn();
   setSeriesIntoLocalStorage();
   printSeries();
   listenClickAtList();
-  applyXbtn();
   // setSeriesIntoLocalStorage();
 };
 
@@ -114,14 +115,14 @@ const removeFromFavorites = function(serieIndex) {
 };
 const removeFromFavoritesWithBtn = function(ev) {
   const currentTarget = ev.currentTarget;
-  const serieIndex = currentTarget.dataset.index;
-  const serieName = favorites[serieIndex].name;
-  for (let index = 0; index < favorites.length; index++) {
-    if (serieName === favorites[index].name) {
-      favorites.splice(index, 1);
-    }
-  }
+  const currentTargetParent = currentTarget.parentElement;
+  const serieIndex = currentTargetParent.dataset.index;
+  const serieIndexNumber = parseInt(serieIndex);
+  favorites.splice(serieIndexNumber, 1);
   console.log(favorites);
+  printFavorites();
+  applyXbtn();
+  setSeriesIntoLocalStorage();
 };
 
 const getFavoriteClass = function(index) {
@@ -138,12 +139,12 @@ const printFavorites = function() {
   for (let favIndex = 0; favIndex < favorites.length; favIndex++) {
     let htmlcode = "";
     console.log("paso por aquí");
-    htmlcode += `<li class= "list-item favorite" >`;
-    htmlcode += `<div class="img-container" data-index="${favIndex}">`;
+    htmlcode += `<li class= "list-item favorite" data-index="${favIndex}">`;
+    htmlcode += `<div class="img-container">`;
     htmlcode += `<img class="img" src="${favorites[favIndex].img}" />`;
     htmlcode += "</div>";
     htmlcode += `<h2 class="serie-title">${favorites[favIndex].name}</h2>`;
-    htmlcode += `<div class= "x" data-index="${favIndex}"><strong>x</strong></div>`;
+    htmlcode += `<div class= "x"><strong>x</strong></div>`;
     htmlcode += "</li>";
     ulFav.innerHTML += htmlcode;
   }
@@ -156,12 +157,16 @@ const setSeriesIntoLocalStorage = () => {
 };
 
 const getSeriesFromLocalStorage = () => {
-  favorites = JSON.parse(localStorage.getItem("favorites"));
+  const local = JSON.parse(localStorage.getItem("favorites"));
+  if (!!local === true) {
+    favorites = local;
+  }
 };
 
 const startApp = function() {
   getSeriesFromLocalStorage();
-  if (favorites.length > 0) {
+  // if (favorites.length > 0) {
+  if (!!favorites === true) {
     printFavorites();
   }
 };
@@ -175,8 +180,10 @@ const listenXbtn = function() {
 };
 
 const applyXbtn = function() {
-  listenXbtn();
-  printFavorites();
+  if (!!favorites === true) {
+    printFavorites();
+    listenXbtn();
+  }
 };
 
 //collapsible
@@ -199,7 +206,15 @@ for (const item of collapsibleTriggers) {
   item.addEventListener("click", updateCollapsible);
 }
 
+const deleteAll = function() {
+  if (favorites.length > 0) {
+    favorites = [];
+    printFavorites();
+  }
+};
 
 //ejecutar funciones
 btn.addEventListener("click", searchInServer);
+btnDelete.addEventListener("click", deleteAll);
 startApp();
+applyXbtn();

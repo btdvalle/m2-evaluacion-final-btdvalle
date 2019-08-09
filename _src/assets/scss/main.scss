@@ -21,6 +21,7 @@
       margin-top: 10px;
       padding: 15px;
       border-bottom: solid red 2px;
+
       .title-fav {
         display: inline-block;
       }
@@ -30,6 +31,21 @@
     }
     .ul-fav {
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .list-item {
+        display: inline-block;
+        width: 160px;
+        padding: 20px;
+        margin: 30px 0;
+        .img-container {
+          height: auto;
+          .img {
+            width: 100%;
+          }
+        }
+      }
     }
     .searcher {
       display: flex;
@@ -43,12 +59,27 @@
         width: 60%;
         padding: 10px;
         margin: auto;
+        margin-bottom: 20px;
+        border-radius: 3px;
         cursor: pointer;
       }
     }
-    .list-item {
-      margin: 30px 0;
-    }
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .delete-all {
+    width: 90%;
+    border: none;
+    padding: 10px;
+    margin-top: 20px;
+    background: red;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
   }
   .ul-series {
     display: flex;
@@ -57,6 +88,18 @@
     align-content: flex-start;
     width: 70%;
     padding: 0;
+    .list-item {
+      margin: 15px 5px;
+      padding: 20px;
+      width: 240px;
+      .img-container {
+        width: 200px;
+        height: auto;
+        .img {
+          width: 100%;
+        }
+      }
+    }
   }
 
   //js
@@ -64,15 +107,7 @@
     position: relative;
     display: flex;
     flex-flow: column nowrap;
-    padding: 20px;
-    width: 240px;
-    .img-container {
-      width: 200px;
-      height: auto;
-      .img {
-        width: 100%;
-      }
-    }
+
     .serie-title {
       text-align: center;
     }
@@ -96,6 +131,9 @@
   color: black;
   cursor: pointer;
 }
+.x:hover {
+  color: white;
+}
 
 //collapsible
 .js-collapsible-content {
@@ -103,7 +141,7 @@
   overflow: hidden;
 }
 .js-collapsible-open .js-ico {
-  transform: translateX(-50%) rotate(-180deg);
+  transform: rotate(-180deg);
 }
 
 .js-collapsible-open .js-collapsible-content {
