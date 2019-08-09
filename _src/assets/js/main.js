@@ -1,7 +1,7 @@
 "use strict";
 
 const btn = document.querySelector(".js-btn");
-const series = [];
+let series = [];
 const favorites = [];
 
 //FASE 2
@@ -9,6 +9,7 @@ const searchInServer = function(ev) {
   ev.preventDefault();
   const searcherInput = document.querySelector(".js-input");
   const searcherInputValue = searcherInput.value;
+  series = [];
   const url = `http://api.tvmaze.com/search/shows?q=${searcherInputValue}`;
   fetch(url)
     .then(response => response.json())
@@ -73,27 +74,36 @@ const whenClick = function(ev) {
     removeFromFavorites(serieIndex);
   } else {
     addToFavorites(serieIndex);
-    printFavorites(serieIndex);
-    setSeriesIntoLocalStorage();
   }
+  printFavorites();
+  setSeriesIntoLocalStorage();
   printSeries();
   listenClickAtList();
   setSeriesIntoLocalStorage();
 };
 
+// const isUndefined = function(index) {
+//   if (!!index === false) {
+//     return 0;
+//   } else {
+//     return index;
+//   }
+// };
+
 const isInFavorites = function(serieIndex) {
-  //   for (const favorite of favorites) {
-  const foundInFavs = favorites.indexOf(serieIndex);
-  if (foundInFavs < 0) {
-    return false;
-  } else {
-    return true;
+  if (favorites.length > 0) {
+    // const finalSerieIndex = isUndefined(serieIndex);
+    const serieName = series[serieIndex].name;
+    for (let index = 0; index < favorites.length; index++) {
+      if (serieName === favorites[index].name) {
+        return true;
+      }
+    }
   }
-  //   }
+  return false;
 };
 
 const addToFavorites = function(serieIndex) {
-  //   favorites.push(serieIndex);
   favorites.push({
     name: series[serieIndex].name,
     img: series[serieIndex].img,
@@ -103,51 +113,54 @@ const addToFavorites = function(serieIndex) {
 };
 
 const removeFromFavorites = function(serieIndex) {
-  const foundInFavs = favorites.indexOf(serieIndex);
-  console.log(favorites);
-  favorites.splice(foundInFavs, 1);
+  const serieName = series[serieIndex].name;
+  for (let index = 0; index < favorites.length; index++) {
+    if (serieName === favorites[index].name) {
+      favorites.splice(index, 1);
+    }
+  }
   console.log(favorites);
 };
 
-const getFavoriteClass = function(serieIndex) {
-  if (isInFavorites(serieIndex)) {
+const getFavoriteClass = function(index) {
+  if (isInFavorites(index)) {
     return "favorite";
   } else {
     return "";
   }
 };
 
-const printFavorites = function(serieIndex) {
-  for (let i = 0; i < favorites.length; i++) {
-    const ulAside = document.querySelector(".js-ul-aside");
+const printFavorites = function() {
+  const ulAside = document.querySelector(".js-ul-aside");
+  ulAside.innerHTML = "";
+  for (let favIndex = 0; favIndex < favorites.length; favIndex++) {
     let htmlcode = "";
-    htmlcode += `<li class= "list-item ${getFavoriteClass(serieIndex)}" data-index="${serieIndex}">`;
-    htmlcode += `<div class="img-container" data-index="${serieIndex}">`;
-    htmlcode += `<img class="img" src="${series[serieIndex].img}" />`;
+    htmlcode += `<li class= "list-item favorite" data-index="${favIndex}">`;
+    htmlcode += `<div class="img-container" data-index="${favIndex}">`;
+    htmlcode += `<img class="img" src="${favorites[favIndex].img}" />`;
     htmlcode += "</div>";
-    htmlcode += `<h2 class="title">${series[serieIndex].name}</h2>`;
+    htmlcode += `<h2 class="title">${favorites[favIndex].name}</h2>`;
     htmlcode += "</li>";
     ulAside.innerHTML += htmlcode;
   }
 };
-// const isFavoritesPrinted = function(serieIndex) {
-//   const foundInFavs = favorites.indexOf(serieIndex);
-//   if (foundInFavs < 0) {
-//     return false;
-//   } else {
-//     return true;
-//   }
-// };
 
 //FASE 4
-const getSeriesFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("favorites"));
-};
 
 const setSeriesIntoLocalStorage = () => {
   localStorage.setItem("favorites", JSON.stringify(favorites));
 };
 
+const getSeriesFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("favorites"));
+};
+
+const startApp = function() {
+  const seriesFromLS = getSeriesFromLocalStorage();
+  if (!!seriesFromLS === true) {
+    printFavorites();
+  }
+};
 //ejecutar funciones
 btn.addEventListener("click", searchInServer);
-getSeriesFromLocalStorage();
+startApp();

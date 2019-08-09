@@ -1,37 +1,58 @@
 * {
   box-sizing: border-box;
   margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.body {
+  background: black;
 }
 
 .main {
   display: flex;
+  color: white;
   .aside {
     width: 30%;
+    padding: 30px;
+    .ul-aside {
+      padding: 0;
+    }
+    // flex-flow: column wrap;
     .searcher {
       display: flex;
       justify-content: center;
+    }
+    .list-item {
+      margin: 30px 0;
     }
   }
   .ul-series {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
+    align-content: flex-start;
     width: 70%;
     padding: 0;
-    .list-item {
-      display: inline-block;
-      padding: 20px;
-    }
   }
-}
-.img-container {
-  width: 200px;
-  height: auto;
-  .img {
-    width: 100%;
+  .list-item {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 20px;
+    width: 240px;
+    .img-container {
+      width: 200px;
+      height: auto;
+      .img {
+        width: 100%;
+      }
+    }
+    .title {
+      text-align: center;
+    }
   }
 }
 
 .favorite {
-  background: orange;
+  color: red;
+  border: solid red 2px;
 }
