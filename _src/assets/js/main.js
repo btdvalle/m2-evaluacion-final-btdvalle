@@ -148,6 +148,11 @@ const printFavorites = function() {
     htmlcode += "</li>";
     ulFav.innerHTML += htmlcode;
   }
+  if (favorites.length > 1) {
+    btnDelete.classList.remove("hidden");
+  } else if (favorites.length < 2) {
+    btnDelete.classList.add("hidden");
+  }
 };
 
 //FASE 4
@@ -205,12 +210,11 @@ function updateCollapsible(event) {
 for (const item of collapsibleTriggers) {
   item.addEventListener("click", updateCollapsible);
 }
+//
 
 const deleteAll = function() {
-  if (favorites.length > 0) {
-    favorites = [];
-    printFavorites();
-  }
+  favorites = [];
+  printFavorites();
 };
 
 //ejecutar funciones

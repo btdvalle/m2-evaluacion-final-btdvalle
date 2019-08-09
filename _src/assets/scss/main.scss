@@ -135,6 +135,14 @@
   color: white;
 }
 
+.show {
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
 //collapsible
 .js-collapsible-content {
   display: none;
