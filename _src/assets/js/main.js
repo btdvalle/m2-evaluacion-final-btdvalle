@@ -2,7 +2,7 @@
 
 const btn = document.querySelector(".js-btn");
 let series = [];
-const favorites = [];
+let favorites = [];
 
 //FASE 2
 const searchInServer = function(ev) {
@@ -14,6 +14,7 @@ const searchInServer = function(ev) {
   fetch(url)
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       formatAndSafeDataInSeries(data);
       printSeries();
       listenClickAtList();
@@ -21,14 +22,12 @@ const searchInServer = function(ev) {
 };
 
 const formatAndSafeDataInSeries = function(data) {
-  console.log(data);
   for (const serie of data) {
     series.push({
       name: serie.show.name,
       img: hasImage(serie)
     });
   }
-  console.log(series);
 };
 
 const hasImage = function(serie) {
@@ -47,7 +46,7 @@ const printSeries = function() {
     htmlcode += `<div class="img-container" data-index="${indexLi}">`;
     htmlcode += `<img class="img" src="${series[indexLi].img}" />`;
     htmlcode += "</div>";
-    htmlcode += `<h2 class="title">${series[indexLi].name}</h2>`;
+    htmlcode += `<h2 class="serie-title">${series[indexLi].name}</h2>`;
     htmlcode += "</li>";
   }
   ulSeries.innerHTML = htmlcode;
@@ -79,16 +78,9 @@ const whenClick = function(ev) {
   setSeriesIntoLocalStorage();
   printSeries();
   listenClickAtList();
-  setSeriesIntoLocalStorage();
+  applyXbtn();
+  // setSeriesIntoLocalStorage();
 };
-
-// const isUndefined = function(index) {
-//   if (!!index === false) {
-//     return 0;
-//   } else {
-//     return index;
-//   }
-// };
 
 const isInFavorites = function(serieIndex) {
   if (favorites.length > 0) {
@@ -119,6 +111,16 @@ const removeFromFavorites = function(serieIndex) {
       favorites.splice(index, 1);
     }
   }
+};
+const removeFromFavoritesWithBtn = function(ev) {
+  const currentTarget = ev.currentTarget;
+  const serieIndex = currentTarget.dataset.index;
+  const serieName = favorites[serieIndex].name;
+  for (let index = 0; index < favorites.length; index++) {
+    if (serieName === favorites[index].name) {
+      favorites.splice(index, 1);
+    }
+  }
   console.log(favorites);
 };
 
@@ -131,17 +133,19 @@ const getFavoriteClass = function(index) {
 };
 
 const printFavorites = function() {
-  const ulAside = document.querySelector(".js-ul-aside");
-  ulAside.innerHTML = "";
+  const ulFav = document.querySelector(".js-ul-fav");
+  ulFav.innerHTML = "";
   for (let favIndex = 0; favIndex < favorites.length; favIndex++) {
     let htmlcode = "";
-    htmlcode += `<li class= "list-item favorite" data-index="${favIndex}">`;
+    console.log("paso por aquí");
+    htmlcode += `<li class= "list-item favorite" >`;
     htmlcode += `<div class="img-container" data-index="${favIndex}">`;
     htmlcode += `<img class="img" src="${favorites[favIndex].img}" />`;
     htmlcode += "</div>";
-    htmlcode += `<h2 class="title">${favorites[favIndex].name}</h2>`;
+    htmlcode += `<h2 class="serie-title">${favorites[favIndex].name}</h2>`;
+    htmlcode += `<div class= "x" data-index="${favIndex}"><strong>x</strong></div>`;
     htmlcode += "</li>";
-    ulAside.innerHTML += htmlcode;
+    ulFav.innerHTML += htmlcode;
   }
 };
 
@@ -152,15 +156,30 @@ const setSeriesIntoLocalStorage = () => {
 };
 
 const getSeriesFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("favorites"));
+  favorites = JSON.parse(localStorage.getItem("favorites"));
 };
 
 const startApp = function() {
-  const seriesFromLS = getSeriesFromLocalStorage();
-  if (!!seriesFromLS === true) {
+  getSeriesFromLocalStorage();
+  if (favorites.length > 0) {
     printFavorites();
   }
 };
+
+// BONUS
+const listenXbtn = function() {
+  const xBtns = document.querySelectorAll(".x");
+  for (const btn of xBtns) {
+    btn.addEventListener("click", removeFromFavoritesWithBtn);
+  }
+};
+
+const applyXbtn = function() {
+  listenXbtn();
+  printFavorites();
+};
+
+
 //ejecutar funciones
 btn.addEventListener("click", searchInServer);
 startApp();

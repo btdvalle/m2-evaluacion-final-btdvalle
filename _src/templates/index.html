@@ -5,6 +5,8 @@
     <title>Evaluación</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/ea8c8602a3.js"></script>
+
     <link rel="stylesheet" href="assets/css/main.css" />
   </head>
   <body class="body">
@@ -14,7 +16,26 @@
           <input class="input js-input" type="text" placeholder="Introduce tu búsqueda" />
           <input class="btn js-btn" type="submit" value="Buscar" />
         </form>
-        <ul class="ul-aside js-ul-aside"></ul>
+        <div class="title-collapsible js-collapsible-trigger">
+          <h2 class="title-fav">
+            Mis favoritos
+          </h2>
+          <div class="js-ico ">
+            <i class="fas fa-angle-up"></i>
+          </div>
+        </div>
+        <div class="js-collapsible-content">
+          <ul class="ul-fav js-ul-fav"></ul>
+        </div>
+        <!-- <div class="title-collapsible js-collapsible-trigger">
+          <h2 class="title-fav">
+           
+          </h2>
+          <div class="js-ico ">
+            <i class="fas fa-angle-up"></i>
+          </div>
+        </div>
+        <div class="js-collapsible-content"></div> -->
       </aside>
       <ul class="ul-series js-ul-series"></ul>
     </main>
