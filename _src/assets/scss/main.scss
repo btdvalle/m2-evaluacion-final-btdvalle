@@ -7,6 +7,15 @@
 .body {
   background: black;
 }
+.h1 {
+  text-align: center;
+  margin: 20px;
+  .name {
+    text-decoration: none;
+    color: lightgray;
+    text-align: center;
+  }
+}
 
 .main {
   display: flex;
@@ -39,6 +48,7 @@
         width: 160px;
         padding: 20px;
         margin: 30px 0;
+
         .img-container {
           height: auto;
           .img {
@@ -65,14 +75,9 @@
       }
     }
   }
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 
   .delete-all {
-    width: 90%;
+    width: 100%;
     border: none;
     padding: 10px;
     margin-top: 20px;
@@ -92,6 +97,8 @@
       margin: 15px 5px;
       padding: 20px;
       width: 240px;
+      color: lightgrey;
+      border: solid grey 2px;
       .img-container {
         width: 200px;
         height: auto;
@@ -100,6 +107,10 @@
         }
       }
     }
+    .favorite {
+      color: red;
+      border: solid red 2px;
+    }
   }
 
   //js
@@ -107,6 +118,7 @@
     position: relative;
     display: flex;
     flex-flow: column nowrap;
+    // animation: box 2s ease;
 
     .serie-title {
       text-align: center;
@@ -114,10 +126,6 @@
   }
 }
 
-.favorite {
-  color: red;
-  border: solid red 2px;
-}
 .x {
   position: absolute;
   top: 10px;

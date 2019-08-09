@@ -125,6 +125,11 @@ const removeFromFavoritesWithBtn = function(ev) {
   setSeriesIntoLocalStorage();
 };
 
+const removeClass = function (){
+  const listItems = document.querySelectorAll(".ul-series .list-item");
+  listItems.classList.remove('favorite');
+};
+
 const getFavoriteClass = function(index) {
   if (isInFavorites(index)) {
     return "favorite";
