@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+    
+    <head>
+        <meta charset="UTF-8" />
+        <title>Evaluación</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"
+        />
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
+        rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/ea8c8602a3.js"></script>
+        <link rel="stylesheet" href="assets/css/main.css" />
+    </head>
+    
+    <body class="body">
+         <h1 class="h1"><a href="#" class="name">Buscador</a></h1>
+
+        <main class="main">
+            <aside class="aside js-aside">
+                <form class="searcher js-searcher">
+                    <input class="input js-input" type="text" placeholder="Introduce tu búsqueda"
+                    />
+                    <input class="btn js-btn" type="submit" value="Buscar" />
+                </form>
+                <div class="title-collapsible js-collapsible-trigger">
+                     <h2 class="title-fav">
+            Mis favoritos
+          </h2>
+
+                    <div class="js-ico "> <i class="fas fa-angle-up"></i>
+
+                    </div>
+                </div>
+                <div class="js-collapsible-content ">
+                    <button class=" hidden delete-all js-delete-all">Borrar Mis Favoritos</button>
+                    <ul class="ul-fav js-ul-fav"></ul>
+                </div>
+            </aside>
+            <ul class="ul-series js-ul-series"></ul>
+        </main>
+        <script src="./assets/js/main.js"></script>
+    </body>
+
+</html>
